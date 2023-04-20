@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step05_If.html</title>
+</head>
+<body>
+    <h1>조건부로 실행되는 code블럭 구성하기</h1>
+    <p id="one"></p>
+    <p id="two"></p>
+    <script>
+        let name = prompt("name?");
+
+        if(name=="JY") {
+            document.querySelector("#one").innerText = name+" welcome!";
+        }
+
+        // 조건문이 복잡할 경우 외부에서 boolean값을 얻을 수 있다.
+        let isEqul = name=="JY";
+        if(isEqul) {
+            document.querySelector("#one").innerText = name+" welcome!";
+        }
+    </script>
+</body>
+</html>

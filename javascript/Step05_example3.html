@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step05_example3.html</title>
+    <style>
+        table {
+            border: 1px;
+        }
+    </style>
+</head>
+<body>
+    <h1>다중 if문 테스트</h1>
+    <div style="display: inline-block;">
+        <input type="text" id="score" placeholder="점수 입력...">
+        <button onclick="check()">check</button>
+        <p><strong id="result"></strong><span>학점 입니다.</span></p>
+    </div>
+    <div style="display: inline-block;">
+        <table>
+            <tr>
+                <td>학점</td>
+                <td>점수</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>90점 이상</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>80점 이상</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>70점 이상</td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td>60점 이상</td>
+            </tr>
+            <tr>
+                <td>F</td>
+                <td>60점 미만</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        isResult = document.querySelector("#result");
+        
+        let check = () => {
+            if(score.value > 100 || score.value < 0){
+                isResult.innerText = "";
+                document.querySelector("span").innerText = '100이하 0이상을 입력하세요'
+            } else if( score.value >= 90 ) {
+                isResult.innerText = "A";
+                document.querySelector("span").innerText = '학점 입니다.'
+            } else if( score.value >= 80 ) {
+              isResult.innerText = "B";
+              document.querySelector("span").innerText = '학점 입니다.'
+            } else if( score.value >= 70 ) {
+                isResult.innerText = "C";
+                document.querySelector("span").innerText = '학점 입니다.'
+            } else if( score.value >= 60 ) {
+                isResult.innerText = "D";
+                document.querySelector("span").innerText = '학점 입니다.'
+            } else {
+                isResult.innerText = "E";
+                document.querySelector("span").innerText = '학점 입니다.'
+            }
+        }
+
+    </script>
+</body>
+</html>

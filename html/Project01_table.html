@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project01_table.html</title>
+    <style>
+        caption {
+            font-size: larger;
+            font-weight: bold;
+            font-family: cursive;
+        }
+        .my-table {
+            border-collapse: collapse;
+        }
+        thead {
+            background-color: deepskyblue;
+            color: white;
+            font-size: large;
+        }
+        .accent {
+            background-color: deepskyblue;
+            color: white;
+            font-size: large;
+        }
+        td {
+            text-align: right;
+        }
+        .objname {
+            text-align: left;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <table border="1" class="my-table">
+        <caption>GS25 현금, 카드 매출 내역</caption>
+        <colgroup>
+            <col width="200" >
+            <col width="100">
+            <col width="100">
+            <col width="100">
+        </colgroup>
+        <thead >
+            <tr>
+                <th>종류</th>
+                <th>상품명</th>
+                <th>현금</th>
+                <th>카드</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th colspan="2" class="accent">합계</th>
+                <td style="color: deepskyblue;">\4,300</td>
+                <td style="color: deepskyblue;">\800</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr>
+                <th rowspan="2" class="accent">식품</th>
+                <th>삼각김밥</th>
+                <td>800</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <!-- <th>식품</th> -->
+                <th>도시락</th>
+                <td>3,500</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <th class="accent">음료</th>
+                <th>박카스</th>
+                <td>0</td>
+                <td>800</td>
+            </tr>
+        </tbody>
+    </table>  
+</body>
+</html>

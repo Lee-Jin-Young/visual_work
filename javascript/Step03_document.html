@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step03_document.html</title>
+</head>
+<body>
+    <h1 id="h1">document object 사용해 보기</h1>
+    <button id="btn" onclick="changeClickBtn()">바꾸기</button>
+    <p id = "one" onmouseover="changeOverMouse()">p1</p>
+    <p class="my-class">p2</p>
+    <p class="my-class">p3</p>
+    <input type="text" id="two">
+    <button onclick="send()">전송 &rarr;</button>
+    <input type="text" id="three">
+    <input name="login"/>
+    <script>
+        // h1 요소의 innerText를 특정 버튼을 눌렀을 때 바꾸고 싶다.
+        let changeClickBtn = () => {
+            document.querySelector("p").innerText = "hello";
+        }
+
+        // p1에 mouseover되었을때 innertext를 "마우스가 올라왔네?"로 변경
+        let changeOverMouse = () => {
+            document.querySelector("p").innerText = "마우스가 올라왔네?"
+        }
+
+        let send = () => {
+            document.querySelector("#three").value = document.querySelector("#two").value;
+        }
+
+    </script>
+</body>
+</html>
+

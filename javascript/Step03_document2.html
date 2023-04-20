@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step03_document2.html</title>
+    <style>
+        p {
+            color: blue;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: beige;
+            cursor: pointer;
+            transition : margin-left 0.4s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <h1>인라인 css테스트</h1>
+    <p style="color: red; background-color: antiquewhite;">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. A nisi voluptate repudiandae doloribus illo laborum numquam illum! Ipsum, quae quam. Voluptate aliquam voluptas, asperiores expedita quam repudiandae quis vel soluta?
+    </p>
+    <div class="box" onclick="clickBox()">click</div>
+
+    <script>
+        let mLeft = 0;
+
+        let clickBox = () => {
+            mLeft += 100;
+            document.querySelector(".box").style.marginLeft = mLeft+"px";
+        }
+    </script>
+</body>
+</html>

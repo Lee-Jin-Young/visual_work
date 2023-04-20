@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step06_Event3.html</title>
+</head>
+<body>
+    <h1>key event활용해보기</h1>
+    <input type="text" name="" id="inputMsg" placeholder="입력">
+    <p id="result"></p>
+    <input type="text" name="" id="result2">
+    <script>
+        document.querySelector("#inputMsg").addEventListener("keyup",()=>{
+            //입력한 문자열을 읽어와서 p요소의 innerText로 출력
+            let msg = event.target.value;
+            document.querySelector("#result").innerText = msg;
+            console.log(event);
+            
+            if(event.key == 'Enter') {
+                event.target.value = "";
+                document.querySelector("#result").innerText = "";
+                document.querySelector("#result2").value = msg;
+            }
+        });
+    </script>
+</body>
+</html>
