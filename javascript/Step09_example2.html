@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step09_example2.html</title>
+</head>
+
+<body>
+    <h1>스탑워치</h1>
+    <p>
+        <strong id="min">0</strong> :
+        <strong id="sec">0</strong> :
+        <strong id="mSec">0</strong>
+    </p>
+    <button id="startBtn">시작</button>
+    <button id="resetBtn">재설정</button>
+    <ul class="laptime"></ul>
+
+    <script>
+        let min = 0;
+        let sec = 0;
+        let mSec = 0;
+
+        let isStarted = false;
+
+        //토글 버튼
+        document.querySelector("#startBtn").addEventListener("click", (e) => {
+            if (isStarted) {
+                isStarted = false
+                e.target.innerText = "시작";
+            } else {
+                isStarted = true
+                e.target.innerText = "중단";
+            }
+        })
+
+        //매 1ms마다 작동
+        setInterval(() => {
+            // 시작되지 않은 상태면 아무것도 리턴하지 않음
+            if (!isStarted) {
+                return;
+            }
+            mSec++;
+            
+            //100ms일 경우 1sec증가
+            if (mSec == 100) {
+                sec++;
+                mSec = 0;
+                document.querySelector("#sec").innerText = sec;
+            }
+
+            //60sec일 경우 1min증가
+            if (sec == 60) {
+                min++;
+                sec = 0;
+                document.querySelector("#min").innerText = min;
+            }
+            document.querySelector("#mSec").innerText = mSec;
+        }, 100);
+
+        // 리셋 함수
+        document.querySelector("#resetBtn").addEventListener("click", () => {
+            isStarted = false;
+            //랩타임
+            let newlap = document.createElement("li")
+            newlap.innerText = min+":"+sec+":"+mSec;
+            document.querySelector(".laptime").append(newlap);
+
+            min = 0;
+            sec = 0;
+            mSec = 0;
+
+            document.querySelector("#min").innerText = min;
+            document.querySelector("#sec").innerText = sec;
+            document.querySelector("#mSec").innerText = mSec;
+        })
+
+    </script>
+</body>
+
+</html>
