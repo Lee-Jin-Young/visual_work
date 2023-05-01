@@ -43,39 +43,39 @@
             if (!isStarted) {
                 return;
             }
+
             mSec++;
-            
             //100ms일 경우 1sec증가
             if (mSec == 100) {
-                sec++;
                 mSec = 0;
+                sec++;
+
+                //60sec일 경우 1min증가
+                if (sec == 60) {
+                    sec = 0;
+                    min++;
+                    document.querySelector("#min").innerText = min;
+                }
                 document.querySelector("#sec").innerText = sec;
             }
-
-            //60sec일 경우 1min증가
-            if (sec == 60) {
-                min++;
-                sec = 0;
-                document.querySelector("#min").innerText = min;
-            }
             document.querySelector("#mSec").innerText = mSec;
-        }, 100);
+        }, 10);
 
         // 리셋 함수
         document.querySelector("#resetBtn").addEventListener("click", () => {
-            isStarted = false;
             //랩타임
             let newlap = document.createElement("li")
-            newlap.innerText = min+":"+sec+":"+mSec;
+            newlap.innerText = min + ":" + sec + ":" + mSec;
             document.querySelector(".laptime").append(newlap);
 
+            isStarted = false;
             min = 0;
             sec = 0;
             mSec = 0;
-
             document.querySelector("#min").innerText = min;
             document.querySelector("#sec").innerText = sec;
             document.querySelector("#mSec").innerText = mSec;
+            document.querySelector("#startBtn").innerText = "시작";
         })
 
     </script>
