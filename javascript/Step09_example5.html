@@ -1,72 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Step09_example5.html</title>
     <style>
-        canvas {
+        canvas{
             border: 1px solid red;
         }
     </style>
 </head>
-
 <body>
     <h1>canvas 요소 활용해 보기</h1>
     <!-- canvas 요소는 width 와 height 를 속성으로 직접 지정할수 있다. -->
     <canvas id="myCanvas" width="800" height="500"></canvas>
-    <script>
+    <script> 
+
         //canvas 요소의 참조값 
-        const canvas = document.querySelector("#myCanvas");
+        const canvas=document.querySelector("#myCanvas");
         //canvas 에 그림을 그릴 도구(context) 객체 얻어내기
-        const context = canvas.getContext("2d");
+        const context=canvas.getContext("2d");
 
         //canvas 에 그릴 이미지 로딩하기
-        const snipeImg = new Image();
-        snipeImg.src = "images/snipe.png";
-
-        const holeImg = new Image();
-        holeImg.src = "images/hole.png";
+        const snipeImg=new Image();
+        snipeImg.src="images/snipe.png";
+        
+        const holeImg=new Image();
+        holeImg.src="images/hole.png";
 
         const backImg=new Image();
         backImg.src="images/background.jpg";
 
+        const rabbitImg1=new Image();
+        rabbitImg1.src="images/rabbit_1.png";
+        const rabbitImg2=new Image();
+        rabbitImg2.src="images/rabbit2.png";
+        //애니매이션 효과를 주기 위해 로딩된 이미지를 배열에 담아 놓는다.
+        const rabbitImgs=[rabbitImg1, rabbitImg2];
 
-        //snipe의 좌표
-        let snipeX = 0;
-        let snipeY = 0;
+        let snipeX=0, snipeY=0;
+        const holes=[];
+        let rabbitX=400, rabbitY=250;
+        let rabbitIndex=0;
+        let count=0;
 
-        let holes = [];
+        setInterval(()=>{
+            count++;
 
-        setInterval(() => {
-            context.clearRect(0, 0, 800, 500);
+            //context.clearRect(0, 0, 800, 500);
             context.drawImage(backImg, 0, 0, 800, 500);
 
-            context.drawImage(snipeImg, snipeX - 50, snipeY - 50, 100, 100);
-            
             for(let i=0; i<holes.length; i++){
                 let tmp=holes[i];
                 context.drawImage(holeImg, tmp.x-10, tmp.y-10, 20, 20);
             }
+            context.drawImage(rabbitImgs[rabbitIndex], rabbitX-50, rabbitY-50, 100, 100);
+            context.drawImage(snipeImg, snipeX-50, snipeY-50, 100, 100);
 
+            if(count%20 == 0){
+                rabbitIndex++;
+                if(rabbitIndex==2){
+                    rabbitIndex=0;
+                }
+            }
+            // 0~ 99 사이의 랜덤한 정수중 10이나올때 토끼를 랜덤한 위치로
+            let ranNum=parseInt(Math.random()*100);
+            if(ranNum == 10){
+                rabbitX = Math.random()*700 + 50;
+                rabbitY = Math.random()*400 + 50;
+            }
         }, 10);
 
         //canvas 요소의 mousemove 이벤트 처리
-        canvas.addEventListener("mousemove", (e) => {
-            //이벤트가 발생한곳의 canvas 내에서의 좌표
-            snipeX = e.offsetX;
-            snipeY = e.offsetY;
+        canvas.addEventListener("mousemove", (e)=>{
+            //이벤트가 발생한곳의 canvas 내에서의 좌표를 snipeX, snipeY 에 반영
+            snipeX=e.offsetX;
+            snipeY=e.offsetY;
         });
 
-
-        canvas.addEventListener("mousedown", (e) => {
-            //이벤트가 발생한곳의 canvas 내에서의 좌표
-            const hole = {x:e.offsetX, y:e.offsetY};
+        canvas.addEventListener("mousedown", (e)=>{
+            //이벤트가 발생한 곳의 좌표를 배열에 담는다.
+            const hole={x:e.offsetX, y:e.offsetY};
             holes.push(hole);
         });
     </script>
 </body>
-
 </html>
