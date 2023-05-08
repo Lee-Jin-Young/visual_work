@@ -44,6 +44,8 @@
         let rabbitX=400, rabbitY=250;
         let rabbitIndex=0;
         let count=0;
+        const fireSound = new Audio("sounds/fire.wav");
+        const dieSound = new Audio("sounds/birddie.mp3");
 
         setInterval(()=>{
             count++;
@@ -79,10 +81,28 @@
             snipeY=e.offsetY;
         });
 
+        //총을 쏘는 이벤트
         canvas.addEventListener("mousedown", (e)=>{
             //이벤트가 발생한 곳의 좌표를 배열에 담는다.
-            const hole={x:e.offsetX, y:e.offsetY};
+            //const hole={x:e.offsetX, y:e.offsetY};
+            let x = e.offsetX;
+            let y = e.offsetY;
+            const hole = {x,y}
             holes.push(hole);
+            fireSound.currentTime=0; //재생 위치를 리셋
+            fireSound.play();
+
+            //토끼가 총에 맞았는지 여부 
+            let isRabbitDie = x > rabbitX-50 &&
+                              x < rabbitX+50 &&
+                              y > rabbitY-50 &&
+                              y < rabbitY+50; 
+
+            if(isRabbitDie){
+                dieSound.currentTime=0;
+                dieSound.play();
+            }
+
         });
     </script>
 </body>
