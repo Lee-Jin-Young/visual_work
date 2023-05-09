@@ -18,67 +18,94 @@
     <script> 
 
         //canvas 요소의 참조값 
-        const canvas=document.querySelector("#myCanvas");
+        const canvas = document.querySelector("#myCanvas");
         //canvas 에 그림을 그릴 도구(context) 객체 얻어내기
-        const context=canvas.getContext("2d");
+        const context = canvas.getContext("2d");
 
         //canvas 에 그릴 이미지 로딩하기
-        const snipeImg=new Image();
-        snipeImg.src="images/snipe.png";
+        const snipeImg = new Image();
+        snipeImg.src = "images/snipe.png";
         
-        const holeImg=new Image();
-        holeImg.src="images/hole.png";
+        const holeImg = new Image();
+        holeImg.src = "images/hole.png";
 
-        const backImg=new Image();
-        backImg.src="images/background.jpg";
+        const backImg = new Image();
+        backImg.src = "images/background.jpg";
 
-        const rabbitImg1=new Image();
-        rabbitImg1.src="images/rabbit_1.png";
-        const rabbitImg2=new Image();
-        rabbitImg2.src="images/rabbit2.png";
+        const rabbitImg1 = new Image();
+        rabbitImg1.src = "images/rabbit_1.png";
+        const rabbitImg2 = new Image();
+        rabbitImg2.src = "images/rabbit2.png";
         //애니매이션 효과를 주기 위해 로딩된 이미지를 배열에 담아 놓는다.
-        const rabbitImgs=[rabbitImg1, rabbitImg2];
+        const rabbitImgs = [rabbitImg1, rabbitImg2];
 
-        let snipeX=0, snipeY=0;
-        const holes=[];
-        let rabbitX=400, rabbitY=250;
-        let rabbitIndex=0;
-        let count=0;
+        const bubbleImgs = [];
+        for(let i = 0; i<6; i++) {
+            let bubble = new Image();
+            bubble.src = "images/b"+i+".png";
+            bubbleImgs.push(bubble);
+        }
+
+        let snipeX = 0
+        let snipeY = 0;
+        const holes = [];
+        let rabbitX = 400;
+        let rabbitY = 250;
+        let rabbitIndex = 0;
+        let count = 0;
         const fireSound = new Audio("sounds/fire.wav");
         const dieSound = new Audio("sounds/birddie.mp3");
 
-        setInterval(()=>{
+        const bubbles = [];
+        
+        
+
+        setInterval(() => {
             count++;
 
             //context.clearRect(0, 0, 800, 500);
             context.drawImage(backImg, 0, 0, 800, 500);
 
-            for(let i=0; i<holes.length; i++){
-                let tmp=holes[i];
+            for(let i = 0; i<holes.length; i++) {
+                let tmp = holes[i];
                 context.drawImage(holeImg, tmp.x-10, tmp.y-10, 20, 20);
-            }
-            context.drawImage(rabbitImgs[rabbitIndex], rabbitX-50, rabbitY-50, 100, 100);
-            context.drawImage(snipeImg, snipeX-50, snipeY-50, 100, 100);
+            } //drawHoles
 
-            if(count%20 == 0){
+            context.drawImage(rabbitImgs[rabbitIndex], rabbitX-50, rabbitY-50, 100, 100); // drawRabbit
+
+            for(let i = 0; i<bubbles.length; i++) {
+                let bubble = bubbles[i];
+                context.drawImage(bubbleImgs[bubble.Index], bubble.x-25, bubble.y-25, 50, 50);
+            } //drawBubbles
+
+            context.drawImage(snipeImg, snipeX-50, snipeY-50, 100, 100); //drawSnipe
+
+            if(count%20==0){
                 rabbitIndex++;
                 if(rabbitIndex==2){
                     rabbitIndex=0;
                 }
-            }
-            // 0~ 99 사이의 랜덤한 정수중 10이나올때 토끼를 랜덤한 위치로
+            } //animateRabbit
+
             let ranNum=parseInt(Math.random()*100);
-            if(ranNum == 10){
+            if(ranNum==10){
                 rabbitX = Math.random()*700 + 50;
                 rabbitY = Math.random()*400 + 50;
-            }
+            } //moveRabbit
+
+            for(let i = 0; i<bubbles.length; i++) {
+                let bubble = bubbles[i];
+                bubble.x += bubble.speedX;
+                bubble.y += bubble.speedY;
+            } //moveBubble
+
         }, 10);
 
         //canvas 요소의 mousemove 이벤트 처리
         canvas.addEventListener("mousemove", (e)=>{
             //이벤트가 발생한곳의 canvas 내에서의 좌표를 snipeX, snipeY 에 반영
-            snipeX=e.offsetX;
-            snipeY=e.offsetY;
+            snipeX = e.offsetX;
+            snipeY = e.offsetY;
         });
 
         //총을 쏘는 이벤트
@@ -89,7 +116,7 @@
             let y = e.offsetY;
             const hole = {x,y}
             holes.push(hole);
-            fireSound.currentTime=0; //재생 위치를 리셋
+            fireSound.currentTime = 0; //재생 위치를 리셋
             fireSound.play();
 
             //토끼가 총에 맞았는지 여부 
@@ -99,8 +126,17 @@
                               y < rabbitY+50; 
 
             if(isRabbitDie){
-                dieSound.currentTime=0;
+                dieSound.currentTime = 0;
                 dieSound.play();
+                for(let i = 0; i<6; i++) {
+                    let bubble = {};
+                    bubble.Index = i;
+                    bubble.x = rabbitX;
+                    bubble.y = rabbitY;
+                    bubble.speedX = Math.random()*10-10;
+                    bubble.speedY = Math.random()*10-10;
+                    bubbles.push(bubble);
+                }
             }
 
         });
