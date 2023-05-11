@@ -13,14 +13,29 @@
 </head>
 <body>
     <h1>canvas 요소 활용해 보기</h1>
+    <p>잡은 토끼 : <strong id="point">0</strong></p>
     <!-- canvas 요소는 width 와 height 를 속성으로 직접 지정할수 있다. -->
     <canvas id="myCanvas" width="800" height="500"></canvas>
-    <script> 
 
+
+    <script>     
         //canvas 요소의 참조값 
         const canvas = document.querySelector("#myCanvas");
         //canvas 에 그림을 그릴 도구(context) 객체 얻어내기
         const context = canvas.getContext("2d");
+
+        let point = 0;
+
+        //text style
+        context.font = "20px consolas";
+        context.strokeStyle = "yellow";
+
+        const dialImg = new Image();
+        dialImg.src = "images/dial.png"
+        const secImg = new Image();
+        secImg.src = "images/clock_sec.png"
+        const clockX = 700;
+        const clockY = 100;
 
         //canvas 에 그릴 이미지 로딩하기
         const snipeImg = new Image();
@@ -32,11 +47,11 @@
         const backImg = new Image();
         backImg.src = "images/background.jpg";
 
+        //토끼 이미지에 애니매이션 효과를 주기 위해 로딩된 이미지를 배열에 담아 놓는다.
         const rabbitImg1 = new Image();
         rabbitImg1.src = "images/rabbit_1.png";
         const rabbitImg2 = new Image();
         rabbitImg2.src = "images/rabbit2.png";
-        //애니매이션 효과를 주기 위해 로딩된 이미지를 배열에 담아 놓는다.
         const rabbitImgs = [rabbitImg1, rabbitImg2];
 
         const bubbleImgs = [];
@@ -53,11 +68,12 @@
         let rabbitY = 250;
         let rabbitIndex = 0;
         let count = 0;
+        const bubbles = [];
+
+        //효과음
         const fireSound = new Audio("sounds/fire.wav");
         const dieSound = new Audio("sounds/birddie.mp3");
 
-        const bubbles = [];
-        
         
 
         setInterval(() => {
@@ -78,8 +94,6 @@
                 context.drawImage(bubbleImgs[bubble.Index], bubble.x-25, bubble.y-25, 50, 50);
             } //drawBubbles
 
-            context.drawImage(snipeImg, snipeX-50, snipeY-50, 100, 100); //drawSnipe
-
             if(count%20==0){
                 rabbitIndex++;
                 if(rabbitIndex==2){
@@ -97,7 +111,33 @@
                 let bubble = bubbles[i];
                 bubble.x += bubble.speedX;
                 bubble.y += bubble.speedY;
+
+                let isOut = bubble.x < -25 || bubble.y > 825 || bubble.y < -25 || bubble.x > 825;
+                if (isOut) {
+                    bubble.isOut = true;
+                }
             } //moveBubble
+
+            for (let i = 0; i < bubbles.length; i++) {
+                let tmp = bubbles[i];
+                if(tmp.isOut) {
+                    bubbles.splice(i, 1);
+                }
+            } //checkBubble
+
+            context.drawImage(snipeImg, snipeX-50, snipeY-50, 100, 100); //drawSnipe
+
+            context.strokeText("Point : " + point , 10, 30); //printText
+
+            context.save();
+
+            //drawClock
+            context.translate(clockX,clockY);
+            context.drawImage(dialImg, 0-100, 0-100, 200, 200);
+            context.rotate(count*Math.PI/180);
+            context.drawImage(secImg, -3, 0, 6,60);
+
+            context.restore();
 
         }, 10);
 
@@ -128,6 +168,7 @@
             if(isRabbitDie){
                 dieSound.currentTime = 0;
                 dieSound.play();
+
                 for(let i = 0; i<6; i++) {
                     let bubble = {};
                     bubble.Index = i;
@@ -135,9 +176,20 @@
                     bubble.y = rabbitY;
                     bubble.speedX = Math.random()*10-10;
                     bubble.speedY = Math.random()*10-10;
+                    bubble.isOut = false;
+
                     bubbles.push(bubble);
-                }
+                } //bubble 생성
+            
+                //맞으면 이동
+                rabbitX = Math.random() * 700 + 50;
+                rabbitY = Math.random() * 400 + 50;
+
+                point++;
+
+                document.querySelector("#point").innerText = point;
             }
+
 
         });
     </script>
