@@ -30,12 +30,7 @@
         context.font = "20px consolas";
         context.strokeStyle = "yellow";
 
-        const dialImg = new Image();
-        dialImg.src = "images/dial.png"
-        const secImg = new Image();
-        secImg.src = "images/clock_sec.png"
-        const clockX = 700;
-        const clockY = 100;
+        
 
         //canvas 에 그릴 이미지 로딩하기
         const snipeImg = new Image();
@@ -61,6 +56,18 @@
             bubbleImgs.push(bubble);
         }
 
+        //시계 이미지
+        const dialImg = new Image();
+        dialImg.src = "images/dial.png"
+        const hourImg = new Image();
+        hourImg.src = "images/clock_hour.png"
+        const minImg = new Image();
+        minImg.src = "images/clock_min.png"
+        const secImg = new Image();
+        secImg.src = "images/clock_sec.png"
+        const capImg = new Image();
+        capImg.src = "images/clock_point.png"
+
         let snipeX = 0
         let snipeY = 0;
         const holes = [];
@@ -69,6 +76,8 @@
         let rabbitIndex = 0;
         let count = 0;
         const bubbles = [];
+        const clockX = 700;
+        const clockY = 100;
 
         //효과음
         const fireSound = new Audio("sounds/fire.wav");
@@ -134,9 +143,27 @@
             //drawClock
             context.translate(clockX,clockY);
             context.drawImage(dialImg, 0-100, 0-100, 200, 200);
-            context.rotate(count*Math.PI/180);
-            context.drawImage(secImg, -3, 0, 6,60);
 
+            const d = new Date(); // 현재 시간
+            const hour = d.getHours();
+            const min = d.getMinutes();
+            const sec = d.getSeconds();
+
+            const rSec=6*sec*(Math.PI/180);
+            context.rotate(rSec);
+            context.drawImage(secImg, -3, -60, 6, 60);
+
+            const rMin = 6*(min+sec/60)*(Math.PI/180);
+            context.rotate(rMin-rSec); //분침 회전
+            context.drawImage(minImg, -3, -60, 6, 60);
+
+            const rHour = 30*(hour+min/60)*(Math.PI/180);
+            context.rotate(rHour-rMin); //시침 회전
+            context.drawImage(hourImg, -3, -60, 6, 60);
+
+            context.drawImage(capImg, -7, -7, 14, 14);
+            //drawClockEnd
+            
             context.restore();
 
         }, 10);
