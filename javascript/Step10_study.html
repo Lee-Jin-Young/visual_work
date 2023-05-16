@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step10_study.html</title>
+</head>
+<body>
+    <p id="one"></p>
+    <p id="two"></p>
+    <p id="three">
+        <hr>
+    </p>
+    <p id="four">
+        <hr>
+    </p>
+
+    <script>
+        document.querySelector("#one").innerText = `<img src="images/kim1.png">`; //문자열 출력
+        document.querySelector("#two").innerHtml = `<img src="images/kim1.png">`; //문자열을 html형식으로 출력
+        document.querySelector("#three").innerHtml = `<img src="images/kim1.png">`; //덮어쓰기가 됨
+
+        /*
+        다른 문서객체에 인접하게 문서객체를 넣어줌
+
+            beforebegin -> 시작전
+            <p>
+                afterbegin -> 시작후
+                [기존의 자식요소]
+                beforeend -> 종료전
+            </p>
+            afterend -> 종료후
+
+        */
+        document.querySelector("#four").insertAdjacentHTML("beforeend", `<img src="images/kim1.png">`);
+    </script>
+</body>
+</html>

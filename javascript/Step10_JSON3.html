@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step10_JSON3.html</title>
+</head>
+
+<body>
+    <button id="printBtn">출력하기</button>
+    <ul id="friends">
+
+    </ul>
+
+    <script>
+        const data = `["가나다","라마바","사아자","차카타","파하"]`;
+
+        document.querySelector("#printBtn").addEventListener("click", () => {
+            const obj = JSON.parse(data);
+
+            for (let i = 0; i < obj.length; i++) {
+                let newli = document.createElement("li")
+                newli.innerText = obj[i];
+                document.querySelector("#friends").append(newli);
+            }
+
+        })
+    </script>
+</body>
+
+</html>
