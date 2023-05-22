@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step10_example5.html</title>
+</head>
+<body>
+    <input type="text" placeholder="번호 입력" id="inputNum">
+    <br>
+    <input type="text" placeholder="이름 입력" id="inputName">
+    <br>
+    <input type="text" placeholder="주소 입력" id="inputAddr">
+    <br>
+    <button id="saveBtn">저장</button>
+    <button id="deleteBtn">삭제</button>
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>이름</th>
+                <th>주소</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+    <script>
+        document.querySelector("#saveBtn").addEventListener("click", ()=>{
+            const num = Number(document.querySelector("#inputNum").value);
+            const name = document.querySelector("#inputName").value;
+            const addr = document.querySelector("#inputAddr").value;
+
+            const obj = {num, name, addr};
+            let members = [];
+            if(localStorage.members) {
+                members = JSON.parse(localStorage.members);
+            }
+            members.push(obj);
+            const json = JSON.stringify(members);
+
+            localStorage.members = json;
+
+            if(localStorage.members) {
+                printMembers()
+            }
+        });
+
+        function printMembers() {
+            document.querySelector("tbody").innerText="";
+            const members = JSON.parse(localStorage.members);
+            for(let i = 0; i<members.length; i++) {
+                let temp = members[i];
+                const tr = `
+                    <tr>
+                        <td>${temp.num}</td>
+                        <td>${temp.name}</td>
+                        <td>${temp.addr}</td>
+                        <td><a href="javascript : deleteItem(${i})">삭제</a></td>
+                    </tr>
+                `;
+                document.querySelector("tbody").insertAdjacentHTML("beforeend", tr);
+            } 
+        }
+
+        document.querySelector("#deleteBtn").addEventListener("click", ()=>{
+            delete localStorage.members;
+
+            document.querySelector("tbody").innerText="";
+        });
+
+        function deleteItem(row) {
+            const members = JSON.parse(localStorage.members);
+            members.split(row,1);
+            localStorage.members = JSON.stringify(members);
+
+            printMembers()
+        }
+    </script>
+</body>
+</html>
