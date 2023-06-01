@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step11_RegExp3.html</title>
+</head>
+<body>
+    <h1>매칭되는 문자열 여러개 추출</h1>
+    <script>
+        const str = "My name is jy"
+        //한 단어(공백이 없는 문자열)를 찾아내는 정규표현식
+        //g 는 global(전역)을 범위로 설정
+        const reg = /[^ ]+/g;
+
+        while(true) {
+            /*
+            exec는 다음 작업을 실행해주는 함수
+            global범위에서 한 단어를 발견 한 후 다음 단어를 찾는 작업을 수행
+            결과를 배열로 반환하였다.
+            */
+            let temp = reg.exec(str);
+            if(temp == null) break;
+            alert(temp);
+        }
+    </script>
+</body>
+</html>

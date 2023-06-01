@@ -14,7 +14,7 @@
             <div class="mb-2">
                 <label for="id" class="form0label">아이디</label>
                 <input type="text" class="form-control" id="id" name="id">
-                <div class="invalid-feedback">5글자 이상 입력하시오.</div>
+                <div class="invalid-feedback">4~10글자의 소문자로 시작하도록 작성하시오.</div>
             </div>
             <div class="mb-2">
                 <div class="form-label" for="email">이메일</div>
@@ -30,7 +30,12 @@
         let isEmailValid = false;
 
         document.querySelector("#id").addEventListener("input", (e) => {
-            isIdValid = e.target.value.length >= 5;
+            const inputId = e.target.value;
+
+            //정규 표현식 객체
+            let regex = new RegExp(/^[a-z].{3,9}$/);
+
+            isIdValid = regex.test(inputId);
             if(isIdValid) {
                 e.target.classList.add("is-valid");
                 e.target.classList.remove("is-invalid");
@@ -45,7 +50,7 @@
             const inputEmail = e.target.value;
 
             //정규 표현식 객체
-            let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+            let regex = new RegExp('[a-z0-9]+@[a-z]+\\.[a-z]{2,3}');
 
             isEmailValid = regex.test(inputEmail);
             if(isEmailValid) {
